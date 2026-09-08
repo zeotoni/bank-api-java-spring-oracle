@@ -37,4 +37,10 @@ public class Cliente {
         this.email = email;
         this.cpf = cpf;
     }
+
+    public Cliente(ClienteRegistrationData data) {
+        this.nome = data.nome();
+        this.email = data.email();
+        this.cpf = data.cpf();
+    }
 }
