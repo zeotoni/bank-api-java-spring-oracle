@@ -1,0 +1,14 @@
+services:
+  oracle-db:
+    image: container-registry.oracle.com/database/free:latest
+    container_name: oracle-banco
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PWD: ${ORACLE_PWD}
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - ./database/00_setup_usuario.sql:/opt/oracle/scripts/startup/00_setup_usuario.sql
+
+volumes:
+  oracle-data:
