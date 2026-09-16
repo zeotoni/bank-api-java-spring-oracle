@@ -40,4 +40,9 @@ public class ContaService {
     public Optional<Conta> findByNumero(String numero) {
         return repository.findContaByNumero(numero);
     }
+
+    public Conta getContaById(Long conta_id) {
+        return repository.findById(conta_id)
+                .orElseThrow(() -> new EntityNotFoundException("Conta não encontrada"));
+    }
 }
