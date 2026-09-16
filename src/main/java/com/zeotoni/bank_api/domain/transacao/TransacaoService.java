@@ -1,5 +1,6 @@
 package com.zeotoni.bank_api.domain.transacao;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,8 @@ public class TransacaoService {
         return repository.findByContaDestino_IdOrContaOrigem_Id(contaId, contaId);
     }
 
-    public Optional<Transacao> findById(Long id) {
-        return repository.findById(id);
+    public Transacao findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Transação não encontrada"));
     }
 }
