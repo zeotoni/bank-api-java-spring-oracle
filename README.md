@@ -64,6 +64,7 @@ Projeto de estudo para praticar conceitos técnicos exigidos em vagas de desenvo
 - [x] Transferência entre contas (via procedure PL/SQL, com validação de saldo e lock de linha)
 - [x] Consulta de histórico de transações
 - [x] Log de auditoria automático de mudanças de saldo (via trigger)
+- [x] Consulta de saldo total por cliente (via view, somando todas as contas)
 - [x] Tratamento global de erros (validação, entidade não encontrada, erros de negócio da procedure)
 
 ##  Endpoints
@@ -75,6 +76,7 @@ Projeto de estudo para praticar conceitos técnicos exigidos em vagas de desenvo
 | POST | /clientes | Cria um cliente |
 | GET | /clientes | Lista todos os clientes |
 | GET | /clientes/{id} | Busca cliente por id |
+| GET | /clientes/saldo-total | Lista o saldo total de cada cliente, somando todas as contas (via view) |
 
 ### Contas
 
@@ -102,6 +104,7 @@ Projeto de estudo para praticar conceitos técnicos exigidos em vagas de desenvo
 
 - Procedure PL/SQL com validação de regras de negócio (contas iguais, valor inválido, saldo insuficiente) e `FOR UPDATE` para prevenir race conditions em transferências concorrentes
 - Trigger de auditoria (`AFTER UPDATE ... FOR EACH ROW`) que registra automaticamente todo histórico de mudanças de saldo, independente de qual operação a originou
+- View (`view_saldo_por_cliente`) que agrega saldo total e número de contas por cliente, usando `LEFT JOIN` e `COALESCE` para incluir corretamente clientes sem contas
 - Transação gerenciada pelo Spring (`@Transactional`), delegando commit/rollback à aplicação em vez de controlar isso dentro da procedure
 - Versionamento de banco de dados com Flyway
 - Ambiente 100% reproduzível via Docker Compose (usuário do banco criado automaticamente no startup, via script de inicialização)
@@ -110,5 +113,4 @@ Projeto de estudo para praticar conceitos técnicos exigidos em vagas de desenvo
 
 ## Próximos passos
 
-- View para consulta de saldo total por cliente
 - Operações de saque e depósito
