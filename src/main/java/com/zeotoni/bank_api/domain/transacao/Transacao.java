@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity(name = "Transacao")
 @Table(name = "transacoes")
@@ -27,6 +26,10 @@ public class Transacao {
     @Column(name = "data_transacao", nullable = false)
     private LocalDateTime data;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo", nullable = false)
+    private TipoTransacao tipo;
+
     @ManyToOne
     @JoinColumn(name = "conta_origem_id")
     private Conta contaOrigem;
@@ -35,9 +38,10 @@ public class Transacao {
     @JoinColumn(name = "conta_destino_id")
     private Conta contaDestino;
 
-    public Transacao(BigDecimal valor, Conta contaOrigem, Conta contaDestino) {
+    public Transacao(BigDecimal valor, Conta contaOrigem, Conta contaDestino, TipoTransacao tipo) {
         this.valor = valor;
         this.contaOrigem = contaOrigem;
         this.contaDestino = contaDestino;
+        this.tipo = tipo;
     }
 }

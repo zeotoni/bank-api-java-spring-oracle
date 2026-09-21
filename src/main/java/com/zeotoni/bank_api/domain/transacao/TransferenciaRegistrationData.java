@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
-public record TransacaoRegistrationData(
+public record TransferenciaRegistrationData(
 
         @NotNull(message = "O valor não pode estar vazio.")
         @Positive(message = "O valor deve ser maior que zero.")

@@ -3,10 +3,7 @@ package com.zeotoni.bank_api.controller;
 import com.zeotoni.bank_api.domain.conta.Conta;
 import com.zeotoni.bank_api.domain.conta.ContaDetailsData;
 import com.zeotoni.bank_api.domain.conta.ContaRegistrationData;
-import com.zeotoni.bank_api.domain.transacao.Transacao;
-import com.zeotoni.bank_api.domain.transacao.TransacaoDetailsData;
-import com.zeotoni.bank_api.domain.transacao.TransacaoRegistrationData;
-import com.zeotoni.bank_api.domain.transacao.TransacaoService;
+import com.zeotoni.bank_api.domain.transacao.*;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,12 +21,20 @@ public class TransacaoController {
         this.transacaoService = transacaoService;
     }
 
-    @PostMapping
-    public ResponseEntity<String> registerTransacao(@RequestBody @Valid TransacaoRegistrationData data) {
+    @PostMapping("/transferencia")
+    public ResponseEntity<String> transferir(@RequestBody @Valid TransferenciaRegistrationData data) {
 
-        String transacao = transacaoService.registerTransacao(data);
+        String transacao = transacaoService.registerTransferencia(data);
 
         return ResponseEntity.ok(transacao);
+    }
+
+    @PostMapping("/deposito")
+    public ResponseEntity<String> depositar(@RequestBody @Valid DepositoRegistrationData data) {
+
+        String deposito = transacaoService.depositar(data);
+
+        return ResponseEntity.ok(deposito);
     }
 
     @GetMapping
