@@ -62,6 +62,8 @@ Projeto de estudo para praticar conceitos técnicos exigidos em vagas de desenvo
 - [x] Cadastro e consulta de clientes
 - [x] Criação e consulta de contas (vinculadas a um cliente)
 - [x] Transferência entre contas (via procedure PL/SQL, com validação de saldo e lock de linha)
+- [x] Saque (via procedure PL/SQL, usando function de validação de saldo)
+- [x] Depósito (via JPA, sem necessidade de procedure)
 - [x] Consulta de histórico de transações
 - [x] Log de auditoria automático de mudanças de saldo (via trigger)
 - [x] Consulta de saldo total por cliente (via view, somando todas as contas)
@@ -90,7 +92,9 @@ Projeto de estudo para praticar conceitos técnicos exigidos em vagas de desenvo
 
 | Método | Rota | Descrição |
 |---|---|---|
-| POST | /transacoes | Realiza uma transferência entre duas contas |
+| POST | /transacoes/transferencia | Realiza uma transferência entre duas contas |
+| POST | /transacoes/saque | Realiza um saque de uma conta |
+| POST | /transacoes/deposito | Realiza um depósito em uma conta |
 | GET | /transacoes | Lista todas as transações |
 | GET | /transacoes/{id} | Busca transação por id |
 
@@ -102,7 +106,8 @@ Projeto de estudo para praticar conceitos técnicos exigidos em vagas de desenvo
 
 ## Destaques técnicos
 
-- Procedure PL/SQL com validação de regras de negócio (contas iguais, valor inválido, saldo insuficiente) e `FOR UPDATE` para prevenir race conditions em transferências concorrentes
+- Procedures PL/SQL (transferência e saque) com validação de regras de negócio (contas iguais, valor inválido, saldo insuficiente) e `FOR UPDATE` para prevenir race conditions em operações concorrentes
+- Function PL/SQL (`saldo_suficiente`) reutilizada pela procedure de saque para validar disponibilidade de saldo
 - Trigger de auditoria (`AFTER UPDATE ... FOR EACH ROW`) que registra automaticamente todo histórico de mudanças de saldo, independente de qual operação a originou
 - View (`view_saldo_por_cliente`) que agrega saldo total e número de contas por cliente, usando `LEFT JOIN` e `COALESCE` para incluir corretamente clientes sem contas
 - Transação gerenciada pelo Spring (`@Transactional`), delegando commit/rollback à aplicação em vez de controlar isso dentro da procedure
@@ -113,4 +118,4 @@ Projeto de estudo para praticar conceitos técnicos exigidos em vagas de desenvo
 
 ## Próximos passos
 
-- Operações de saque e depósito
+- Autenticação e validação de titularidade de conta
