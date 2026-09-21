@@ -24,7 +24,7 @@ public class TransacaoService {
     }
 
     @Transactional
-    public String registerTransferencia(TransferenciaRegistrationData data) {
+    public String transferir(TransferenciaRegistrationData data) {
         String query = "{CALL transferir(?,?,?)}";
 
         jdbcTemplate.update(
@@ -35,6 +35,19 @@ public class TransacaoService {
         );
 
         return "Transferência realizada com sucesso!";
+    }
+
+    @Transactional
+    public String sacar(SaqueRegistrationData data) {
+        String query = "{CALL sacar(?,?)}";
+
+        jdbcTemplate.update(
+                query,
+                data.valor(),
+                data.contaOrigemId()
+        );
+
+        return "Saque realizado com sucesso!";
     }
 
     @Transactional
